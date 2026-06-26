@@ -1,0 +1,135 @@
+{% extends "base.html" %}
+{% block title %}Log Today's Health{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+  <div class="col-md-6 col-lg-5">
+
+    <div class="vl-card p-4 mt-2">
+
+      <!-- Header -->
+      <div class="text-center mb-4">
+        <div class="vl-icon-circle mx-auto mb-3">
+          <i class="bi bi-journal-heart fs-3"></i>
+        </div>
+        <h2 class="fw-semibold mb-1">Today's Health Log</h2>
+        <p class="text-muted small">{{ today.strftime("%A, %d %B %Y") }}</p>
+        {% if existing %}
+          <span class="badge bg-warning text-dark">
+            <i class="bi bi-pencil me-1"></i>Updating today's entry
+          </span>
+        {% endif %}
+      </div>
+
+      <form method="POST" action="{{ url_for('health.log') }}">
+
+        <!-- ── Water ─────────────────────────────────────────── -->
+        <div class="vl-log-section mb-4">
+          <label class="vl-label mb-2">
+            💧 Water intake — how many glasses today?
+          </label>
+
+          <!-- Quick-tap buttons -->
+          <div class="d-flex flex-wrap gap-2 mb-2" id="waterBtns">
+            {% for i in range(1, 13) %}
+              <button type="button"
+                class="btn vl-qty-btn {% if existing and existing.water == i %}active{% endif %}"
+                onclick="setWater({{ i }})">{{ i }}</button>
+            {% endfor %}
+          </div>
+
+          <input type="hidden" id="water" name="water"
+                 value="{{ existing.water if existing else 0 }}">
+          <p class="text-muted small mt-1">
+            Selected: <strong id="waterLabel">
+              {{ existing.water if existing else 0 }} glass(es)
+            </strong>
+            &nbsp;·&nbsp; Goal: 8 glasses/day
+          </p>
+        </div>
+
+        <!-- ── Sleep ─────────────────────────────────────────── -->
+        <div class="vl-log-section mb-4">
+          <label class="vl-label mb-2" for="sleep">
+            😴 Sleep last night — how many hours?
+          </label>
+          <div class="d-flex align-items-center gap-3">
+            <input type="range" class="form-range vl-range flex-grow-1"
+                   id="sleep" name="sleep"
+                   min="0" max="12" step="0.5"
+                   value="{{ existing.sleep if existing else 7 }}"
+                   oninput="updateSleep(this.value)">
+            <span class="vl-badge-pill" id="sleepLabel">
+              {{ existing.sleep if existing else 7 }}h
+            </span>
+          </div>
+          <div class="d-flex justify-content-between text-muted small mt-1">
+            <span>0h</span>
+            <span style="color:var(--vl-green);">✓ 8–10h recommended</span>
+            <span>12h</span>
+          </div>
+        </div>
+
+        <!-- ── Mood ──────────────────────────────────────────── -->
+        <div class="vl-log-section mb-4">
+          <label class="vl-label mb-3">😊 Mood — how are you feeling today?</label>
+          <div class="d-flex gap-3 justify-content-center">
+
+            {% for emoji, label, val in [("😊","Happy","happy"),("😐","Okay","okay"),("😞","Sad","sad")] %}
+            <label class="vl-mood-card {% if (existing and existing.mood == val) or (not existing and val == 'okay') %}selected{% endif %}"
+                   for="mood_{{ val }}">
+              <input type="radio" name="mood" id="mood_{{ val }}" value="{{ val }}"
+                     class="d-none"
+                     {% if (existing and existing.mood == val) or (not existing and val == 'okay') %}checked{% endif %}>
+              <span class="fs-2">{{ emoji }}</span>
+              <span class="small fw-semibold mt-1">{{ label }}</span>
+            </label>
+            {% endfor %}
+
+          </div>
+        </div>
+
+        <!-- Submit -->
+        <button type="submit" class="btn vl-btn-primary w-100 py-2 mt-2">
+          <i class="bi bi-check-circle me-2"></i>
+          {{ "Update today's log" if existing else "Save today's log" }}
+        </button>
+
+      </form>
+    </div>
+
+    <p class="text-center text-muted small mt-3">
+      <i class="bi bi-arrow-left me-1"></i>
+      <a href="{{ url_for('auth.dashboard') }}" class="vl-link">Back to dashboard</a>
+    </p>
+
+  </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+// ── Water buttons ───────────────────────────────────────────
+function setWater(val) {
+  document.getElementById("water").value = val;
+  document.getElementById("waterLabel").textContent = val + " glass(es)";
+  document.querySelectorAll(".vl-qty-btn").forEach(btn => {
+    btn.classList.toggle("active", parseInt(btn.textContent) === val);
+  });
+}
+
+// ── Sleep slider ────────────────────────────────────────────
+function updateSleep(val) {
+  document.getElementById("sleepLabel").textContent = val + "h";
+}
+
+// ── Mood cards ──────────────────────────────────────────────
+document.querySelectorAll(".vl-mood-card").forEach(card => {
+  card.addEventListener("click", () => {
+    document.querySelectorAll(".vl-mood-card").forEach(c => c.classList.remove("selected"));
+    card.classList.add("selected");
+    card.querySelector("input").checked = true;
+  });
+});
+</script>
+{% endblock %}

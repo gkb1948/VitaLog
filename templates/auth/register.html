@@ -1,0 +1,124 @@
+{% extends "base.html" %}
+{% block title %}Register{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+  <div class="col-md-6 col-lg-5">
+
+    <div class="vl-card p-4 mt-3">
+      <!-- Header -->
+      <div class="text-center mb-4">
+        <div class="vl-icon-circle mx-auto mb-3">
+          <i class="bi bi-person-plus-fill fs-3"></i>
+        </div>
+        <h2 class="fw-semibold mb-1">Create your account</h2>
+        <p class="text-muted small">Free for all Delhi school students</p>
+      </div>
+
+      <!-- Form -->
+      <form method="POST" action="{{ url_for('auth.register') }}" novalidate>
+
+        <!-- Name -->
+        <div class="mb-3">
+          <label for="name" class="form-label vl-label">Full name</label>
+          <div class="input-group">
+            <span class="input-group-text vl-input-icon"><i class="bi bi-person"></i></span>
+            <input type="text" id="name" name="name" class="form-control vl-input"
+                   placeholder="Ananya Sharma"
+                   value="{{ name or '' }}" required>
+          </div>
+        </div>
+
+        <!-- Email -->
+        <div class="mb-3">
+          <label for="email" class="form-label vl-label">Email address</label>
+          <div class="input-group">
+            <span class="input-group-text vl-input-icon"><i class="bi bi-envelope"></i></span>
+            <input type="email" id="email" name="email" class="form-control vl-input"
+                   placeholder="ananya@gmail.com"
+                   value="{{ email or '' }}" required>
+          </div>
+        </div>
+
+        <!-- School -->
+        <div class="mb-3">
+          <label for="school" class="form-label vl-label">School name</label>
+          <div class="input-group">
+            <span class="input-group-text vl-input-icon"><i class="bi bi-building"></i></span>
+            <input type="text" id="school" name="school" class="form-control vl-input"
+                   placeholder="e.g. Govt. Boys Sr. Sec. School, Rohini"
+                   value="{{ school or '' }}" required>
+          </div>
+        </div>
+
+        <!-- Grade -->
+        <div class="mb-3">
+          <label for="grade" class="form-label vl-label">Class / Grade</label>
+          <div class="input-group">
+            <span class="input-group-text vl-input-icon"><i class="bi bi-mortarboard"></i></span>
+            <select id="grade" name="grade" class="form-select vl-input" required>
+              <option value="" disabled {% if not grade %}selected{% endif %}>Select your class</option>
+              {% for g in ["Class 6","Class 7","Class 8","Class 9","Class 10","Class 11","Class 12"] %}
+                <option value="{{ g }}" {% if grade == g %}selected{% endif %}>{{ g }}</option>
+              {% endfor %}
+            </select>
+          </div>
+        </div>
+
+        <!-- Password -->
+        <div class="mb-3">
+          <label for="password" class="form-label vl-label">Password</label>
+          <div class="input-group">
+            <span class="input-group-text vl-input-icon"><i class="bi bi-lock"></i></span>
+            <input type="password" id="password" name="password" class="form-control vl-input"
+                   placeholder="At least 6 characters" required>
+            <button type="button" class="btn vl-eye-btn" onclick="togglePw('password', this)">
+              <i class="bi bi-eye"></i>
+            </button>
+          </div>
+        </div>
+
+        <!-- Confirm Password -->
+        <div class="mb-4">
+          <label for="confirm_password" class="form-label vl-label">Confirm password</label>
+          <div class="input-group">
+            <span class="input-group-text vl-input-icon"><i class="bi bi-lock-fill"></i></span>
+            <input type="password" id="confirm_password" name="confirm_password"
+                   class="form-control vl-input" placeholder="Same password again" required>
+            <button type="button" class="btn vl-eye-btn" onclick="togglePw('confirm_password', this)">
+              <i class="bi bi-eye"></i>
+            </button>
+          </div>
+        </div>
+
+        <button type="submit" class="btn vl-btn-primary w-100 py-2">
+          <i class="bi bi-check-circle me-2"></i>Create account
+        </button>
+      </form>
+
+      <hr class="my-4">
+      <p class="text-center text-muted small mb-0">
+        Already have an account?
+        <a href="{{ url_for('auth.login') }}" class="vl-link fw-semibold">Log in here</a>
+      </p>
+    </div>
+
+  </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+function togglePw(fieldId, btn) {
+  const input = document.getElementById(fieldId);
+  const icon  = btn.querySelector("i");
+  if (input.type === "password") {
+    input.type = "text";
+    icon.classList.replace("bi-eye", "bi-eye-slash");
+  } else {
+    input.type = "password";
+    icon.classList.replace("bi-eye-slash", "bi-eye");
+  }
+}
+</script>
+{% endblock %}

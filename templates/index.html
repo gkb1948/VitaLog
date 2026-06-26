@@ -1,0 +1,164 @@
+{% extends "base.html" %}
+{% block title %}Home{% endblock %}
+
+{% block content %}
+
+<!-- ── Hero ─────────────────────────────────────────────────────────────── -->
+<section class="vl-hero rounded-4 mb-5">
+  <div class="text-center">
+    <span class="vl-hero-badge mb-3 d-inline-block">
+      🏫 Free for all Delhi school students — Class 6 to 12
+    </span>
+    <h1 class="vl-hero-h1">
+      Small habits. Big results.<br>
+      <span class="text-success">Healthier you.</span>
+    </h1>
+    <p class="vl-hero-sub mx-auto mt-3">
+      VitaLog takes 60 seconds a day. Log your water, sleep and mood —
+      and watch your health patterns unfold over time.
+    </p>
+    <div class="d-flex flex-wrap gap-3 justify-content-center mt-4">
+      <a href="{{ url_for('auth.register') }}"
+         class="btn vl-btn-primary btn-lg px-5">
+        <i class="bi bi-person-plus me-2"></i>Register Free
+      </a>
+      <a href="{{ url_for('auth.login') }}"
+         class="btn btn-outline-success btn-lg px-5">
+        <i class="bi bi-box-arrow-in-right me-2"></i>Log in
+      </a>
+    </div>
+  </div>
+
+  <!-- Animated stat bubbles -->
+  <div class="vl-bubbles mx-auto mt-4" aria-hidden="true">
+    <div class="vl-bubble vl-bubble--blue">💧<br><strong>8</strong><br><small>glasses</small></div>
+    <div class="vl-bubble vl-bubble--purple">😴<br><strong>9h</strong><br><small>sleep</small></div>
+    <div class="vl-bubble vl-bubble--green">😊<br><strong>Happy</strong><br><small>mood</small></div>
+    <div class="vl-bubble vl-bubble--orange">🔥<br><strong>7</strong><br><small>day streak</small></div>
+  </div>
+</section>
+
+<!-- ── Why VitaLog ───────────────────────────────────────────────────────── -->
+<section class="mb-5">
+  <div class="text-center mb-4">
+    <span class="vl-section-badge">Why VitaLog?</span>
+    <h2 class="vl-section-h2 mt-2">
+      What do <em>you</em> get by registering?
+    </h2>
+    <p class="text-muted">Real benefits. Backed by science. Built for Delhi students.</p>
+  </div>
+
+  <div class="row g-3">
+
+    <div class="col-md-4">
+      <div class="vl-benefit-card h-100">
+        <div class="vl-benefit-icon">💧</div>
+        <h5>Score better in exams</h5>
+        <p>
+          Dehydration cuts concentration by up to 20%.
+          Tracking your water intake keeps your brain sharp —
+          especially on Delhi's hot days and high-AQI days when
+          your body needs more water than usual.
+        </p>
+        <div class="vl-benefit-proof">
+          Students who drink 8+ glasses daily report better focus in class.
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-4">
+      <div class="vl-benefit-card h-100">
+        <div class="vl-benefit-icon">😴</div>
+        <h5>Wake up less tired</h5>
+        <p>
+          Teens need 8–10 hours of sleep. Tracking it shows you
+          patterns you never noticed — like how staying up late
+          affects how tired and irritable you feel the next day
+          in class.
+        </p>
+        <div class="vl-benefit-proof">
+          Better sleep = better memory = better marks.
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-4">
+      <div class="vl-benefit-card h-100">
+        <div class="vl-benefit-icon">😊</div>
+        <h5>Understand your mood</h5>
+        <p>
+          Logging your mood for 7 days reveals whether your
+          low days are random or connected to poor sleep or low
+          hydration. Noticing the pattern is the first step to
+          changing it.
+        </p>
+        <div class="vl-benefit-proof">
+          Your mental health matters as much as your marks.
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ── How it works ──────────────────────────────────────────────────────── -->
+<section class="vl-steps-section rounded-4 mb-5 p-4">
+  <h3 class="text-center fw-semibold mb-4">3 steps. 60 seconds a day.</h3>
+  <div class="row g-3 text-center">
+
+    <div class="col-md-4">
+      <div class="vl-step-num">1</div>
+      <h6 class="fw-semibold mt-3 mb-1">Register free</h6>
+      <p class="text-muted small">
+        Name, school, class and email.
+        Done in under a minute. No phone number. No fees. Ever.
+      </p>
+    </div>
+
+    <div class="col-md-4">
+      <div class="vl-step-num">2</div>
+      <h6 class="fw-semibold mt-3 mb-1">Log daily — 60 seconds</h6>
+      <p class="text-muted small">
+        Tap how many glasses of water you drank, slide your
+        sleep hours, pick your mood emoji. Done.
+      </p>
+    </div>
+
+    <div class="col-md-4">
+      <div class="vl-step-num">3</div>
+      <h6 class="fw-semibold mt-3 mb-1">See your patterns</h6>
+      <p class="text-muted small">
+        Your personal dashboard shows 7-day charts, your
+        streak, and daily health tips written for Delhi students.
+      </p>
+    </div>
+
+  </div>
+
+  <div class="text-center mt-4">
+    <a href="{{ url_for('auth.register') }}"
+       class="btn vl-btn-primary btn-lg px-5">
+      Start today — it's free
+    </a>
+  </div>
+</section>
+
+<!-- ── Trust strip ───────────────────────────────────────────────────────── -->
+<section class="vl-trust-strip rounded-4 p-4 mb-2">
+  <div class="row g-3 text-center justify-content-center">
+    {% for icon, title, sub in [
+      ("bi-lock",       "100% Private",       "Your log is never shown to teachers or parents"),
+      ("bi-gift",       "Always Free",         "No fees, no ads, no premium plan ever"),
+      ("bi-phone",      "Works on any device", "Mobile, tablet or computer — no app needed"),
+      ("bi-clock",      "60 seconds a day",    "The fastest health habit you'll ever build")
+    ] %}
+    <div class="col-6 col-md-3">
+      <i class="bi {{ icon }} fs-3 text-success"></i>
+      <p class="fw-semibold small mb-0 mt-2">{{ title }}</p>
+      <p class="text-muted" style="font-size:0.78rem; line-height:1.4;">{{ sub }}</p>
+    </div>
+    {% endfor %}
+  </div>
+</section>
+
+{% endblock %}

@@ -1,0 +1,223 @@
+/* ── VitaLog Design Tokens ─────────────────────────────────── */
+:root {
+  --vl-green:       #2e7d32;
+  --vl-green-light: #43a047;
+  --vl-green-bg:    #f1f8f1;
+  --vl-border:      #d6e8d6;
+  --vl-text:        #1a1a1a;
+  --vl-muted:       #6b7280;
+  --vl-radius:      12px;
+  --vl-shadow:      0 2px 12px rgba(46,125,50,0.08);
+}
+
+/* ── Base ──────────────────────────────────────────────────── */
+body {
+  background-color: var(--vl-green-bg);
+  font-family: 'Segoe UI', system-ui, sans-serif;
+  color: var(--vl-text);
+  min-height: 100vh;
+}
+
+/* ── Navbar ────────────────────────────────────────────────── */
+.vl-navbar {
+  background-color: var(--vl-green);
+  box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+}
+.vl-navbar .navbar-brand {
+  font-size: 1.3rem;
+  font-weight: 600;
+  letter-spacing: 0.3px;
+}
+
+/* ── Card ──────────────────────────────────────────────────── */
+.vl-card {
+  background: #fff;
+  border: 1px solid var(--vl-border);
+  border-radius: var(--vl-radius);
+  box-shadow: var(--vl-shadow);
+}
+
+/* ── Icon circle ───────────────────────────────────────────── */
+.vl-icon-circle {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background: var(--vl-green-bg);
+  border: 2px solid var(--vl-border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--vl-green);
+}
+
+/* ── Form elements ─────────────────────────────────────────── */
+.vl-label {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--vl-text);
+  margin-bottom: 5px;
+}
+
+.vl-input-icon {
+  background: var(--vl-green-bg);
+  border-color: var(--vl-border);
+  color: var(--vl-green);
+}
+
+.vl-input {
+  border-color: var(--vl-border);
+  font-size: 0.95rem;
+}
+.vl-input:focus {
+  border-color: var(--vl-green-light);
+  box-shadow: 0 0 0 3px rgba(67,160,71,0.15);
+}
+
+.vl-eye-btn {
+  border: 1px solid var(--vl-border);
+  border-left: none;
+  background: var(--vl-green-bg);
+  color: var(--vl-muted);
+  padding: 0 12px;
+}
+.vl-eye-btn:hover {
+  color: var(--vl-green);
+}
+
+.vl-check {
+  border-color: var(--vl-border);
+}
+.vl-check:checked {
+  background-color: var(--vl-green);
+  border-color: var(--vl-green);
+}
+
+/* ── Button ────────────────────────────────────────────────── */
+.vl-btn-primary {
+  background-color: var(--vl-green);
+  border-color: var(--vl-green);
+  color: #fff;
+  font-weight: 600;
+  border-radius: 8px;
+  transition: background 0.2s, transform 0.1s;
+}
+.vl-btn-primary:hover {
+  background-color: var(--vl-green-light);
+  border-color: var(--vl-green-light);
+  color: #fff;
+  transform: translateY(-1px);
+}
+.vl-btn-primary:active {
+  transform: translateY(0);
+}
+
+/* ── Link ──────────────────────────────────────────────────── */
+.vl-link {
+  color: var(--vl-green);
+  text-decoration: none;
+}
+.vl-link:hover {
+  color: var(--vl-green-light);
+  text-decoration: underline;
+}
+
+/* ── Footer ────────────────────────────────────────────────── */
+.vl-footer {
+  border-top: 1px solid var(--vl-border);
+  color: var(--vl-muted);
+  font-size: 0.82rem;
+}
+
+/* ── Flash alerts ──────────────────────────────────────────── */
+.alert {
+  border-radius: 8px;
+  font-size: 0.92rem;
+}
+
+/* ── Dashboard ─────────────────────────────────────────────── */
+.vl-stat {
+  font-size: 2.2rem;
+  font-weight: 700;
+  line-height: 1.1;
+  color: var(--vl-green);
+}
+
+.vl-progress-bar {
+  height: 6px;
+  background: #e8f5e9;
+  border-radius: 99px;
+  overflow: hidden;
+}
+.vl-progress-fill {
+  height: 100%;
+  border-radius: 99px;
+  transition: width 0.6s ease;
+}
+
+/* ── Log form ──────────────────────────────────────────────── */
+.vl-log-section {
+  background: var(--vl-green-bg);
+  border: 1px solid var(--vl-border);
+  border-radius: 10px;
+  padding: 16px;
+}
+
+.vl-qty-btn {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: 1.5px solid var(--vl-border);
+  background: #fff;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--vl-text);
+  padding: 0;
+  transition: all 0.15s;
+}
+.vl-qty-btn.active,
+.vl-qty-btn:hover {
+  background: var(--vl-green);
+  border-color: var(--vl-green);
+  color: #fff;
+}
+
+.vl-range {
+  accent-color: var(--vl-green);
+}
+
+.vl-badge-pill {
+  background: var(--vl-green);
+  color: #fff;
+  border-radius: 99px;
+  padding: 4px 12px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  min-width: 48px;
+  text-align: center;
+  white-space: nowrap;
+}
+
+/* ── Mood cards ────────────────────────────────────────────── */
+.vl-mood-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 88px;
+  height: 88px;
+  border-radius: 14px;
+  border: 2px solid var(--vl-border);
+  background: #fff;
+  cursor: pointer;
+  transition: all 0.15s;
+  user-select: none;
+}
+.vl-mood-card:hover {
+  border-color: var(--vl-green-light);
+  transform: translateY(-2px);
+}
+.vl-mood-card.selected {
+  border-color: var(--vl-green);
+  background: var(--vl-green-bg);
+  box-shadow: 0 0 0 3px rgba(46,125,50,0.15);
+}

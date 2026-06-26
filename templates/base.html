@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% block title %}VitaLog{% endblock %} — Delhi Schools Health Tracker</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+
+<nav class="navbar navbar-expand-lg navbar-dark vl-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="{{ url_for('auth.index') }}">
+      <i class="bi bi-heart-pulse-fill me-2"></i>VitaLog
+    </a>
+    <div class="ms-auto d-flex gap-2">
+      {% if current_user.is_authenticated %}
+        <a href="{{ url_for('auth.dashboard') }}" class="btn btn-outline-light btn-sm me-1">
+          <i class="bi bi-speedometer2 me-1"></i>Dashboard
+        </a>
+        <a href="{{ url_for('health.log') }}" class="btn btn-light btn-sm text-success fw-semibold me-2">
+          <i class="bi bi-journal-plus me-1"></i>Log today
+        </a>
+        <a href="{{ url_for('auth.logout') }}" class="btn btn-outline-light btn-sm">Logout</a>
+      {% else %}
+        <a href="{{ url_for('auth.login') }}"    class="btn btn-outline-light btn-sm">Login</a>
+        <a href="{{ url_for('auth.register') }}" class="btn btn-light btn-sm text-success fw-semibold">Register</a>
+      {% endif %}
+    </div>
+  </div>
+</nav>
+
+<main class="container my-4">
+  {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+      {% for category, message in messages %}
+        <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
+          {{ message }}
+          <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+      {% endfor %}
+    {% endif %}
+  {% endwith %}
+
+  {% block content %}{% endblock %}
+</main>
+
+<footer class="vl-footer text-center py-3 mt-5">
+  <small><i class="bi bi-heart-fill text-danger me-1"></i>VitaLog — Delhi Schools Health Initiative &nbsp;|&nbsp; Free &amp; Private</small>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+{% block scripts %}{% endblock %}
+</body>
+</html>
