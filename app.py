@@ -1,3 +1,4 @@
+import os
 from flask import Flask
 from extensions import db, login_manager
 
@@ -6,8 +7,10 @@ def create_app():
     app = Flask(__name__)
 
     # ── Config ──────────────────────────────────────────────
-    app.config["SECRET_KEY"] = "vitalog-delhi-schools-2024"
-    app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///vitalog.db"
+    app.config["SECRET_KEY"] = os.environ.get("SECRET_KEY", "fallback-dev-only-key")
+    app.config["SQLALCHEMY_DATABASE_URI"] = os.environ.get(
+        "DATABASE_URL", "sqlite:///vitalog.db"
+    ).replace("postgres://", "postgresql://", 1)
     app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 
     # ── Extensions ──────────────────────────────────────────
