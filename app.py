@@ -1,4 +1,5 @@
 import os
+import sys
 from flask import Flask
 from extensions import db, login_manager
 
@@ -10,12 +11,16 @@ def create_app():
     app.config["SECRET_KEY"] = os.environ.get("SECRET_KEY", "fallback-dev-only-key")
 
     raw_uri = os.environ.get("DATABASE_URL", "sqlite:///vitalog.db")
-    raw_uri = raw_uri.replace("postgres://", "postgresql://", 1)
-    if "postgresql" in raw_uri and "sslmode" not in raw_uri:
-        sep = "&" if "?" in raw_uri else "?"
-        raw_uri += f"{sep}sslmode=require"
+    if raw_uri.startswith("postgres://"):
+        raw_uri = raw_uri.replace("postgres://", "postgresql://", 1)
+    if raw_uri.startswith("postgresql"):
+        raw_uri += "&" if "?" in raw_uri else "?"
+        raw_uri += "sslmode=require&connect_timeout=10"
     app.config["SQLALCHEMY_DATABASE_URI"] = raw_uri
     app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
+
+    print(f"[boot] DB: {'postgresql' if 'postgresql' in raw_uri else 'sqlite'}", flush=True)
+    print(f"[boot] SECRET_KEY set: {bool(app.config['SECRET_KEY'])}", flush=True)
 
     # ── Extensions ──────────────────────────────────────────
     db.init_app(app)
@@ -41,7 +46,12 @@ def create_app():
 
     # ── Create tables ────────────────────────────────────────
     with app.app_context():
-        db.create_all()
+        try:
+            db.create_all()
+            print("[boot] Tables created OK", flush=True)
+        except Exception as e:
+            print(f"[boot] DB ERROR: {e}", flush=True)
+            raise
 
     return app
 
