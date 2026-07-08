@@ -1,1 +1,1 @@
-web: gunicorn app:create_app --bind 0.0.0.0:${PORT:-8080} --timeout 120 --workers 2 --forwarded-allow-ips='*'
+web: gunicorn app:create_app --bind 0.0.0.0:$PORT --timeout 120 --log-file -

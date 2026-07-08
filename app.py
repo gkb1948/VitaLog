@@ -8,9 +8,13 @@ def create_app():
 
     # ── Config ──────────────────────────────────────────────
     app.config["SECRET_KEY"] = os.environ.get("SECRET_KEY", "fallback-dev-only-key")
-    app.config["SQLALCHEMY_DATABASE_URI"] = os.environ.get(
-        "DATABASE_URL", "sqlite:///vitalog.db"
-    ).replace("postgres://", "postgresql://", 1)
+
+    raw_uri = os.environ.get("DATABASE_URL", "sqlite:///vitalog.db")
+    raw_uri = raw_uri.replace("postgres://", "postgresql://", 1)
+    if "postgresql" in raw_uri and "sslmode" not in raw_uri:
+        sep = "&" if "?" in raw_uri else "?"
+        raw_uri += f"{sep}sslmode=require"
+    app.config["SQLALCHEMY_DATABASE_URI"] = raw_uri
     app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 
     # ── Extensions ──────────────────────────────────────────
