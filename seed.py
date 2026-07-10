@@ -91,12 +91,10 @@ def seed():
 
         today = date.today()
 
-        print("── Creating students ────────────────────────────")
         total_logs = 0
 
         for name, email, pw, school_idx, grade, profile in STUDENTS:
             if Student.query.filter_by(email=email).first():
-                print(f"   ⚠️  Already exists: {email}")
                 continue
 
             s = Student(
@@ -121,33 +119,9 @@ def seed():
                 log_count  += 1
                 total_logs += 1
 
-            icon = {"healthy":"🟢","average":"🟡",
-                    "attention":"🔴","irregular":"🔵"}[profile]
-            print(f"   {icon} {name:20s} | {grade:8s} | "
-                  f"{SCHOOLS[school_idx][:28]:28s} | {log_count} logs")
-
         db.session.commit()
 
-        print(f"""
-══════════════════════════════════════════════════
-  ✅ Seed complete
-══════════════════════════════════════════════════
-  Students : {Student.query.count()}
-  Log rows : {HealthLog.query.count()}
-
-  ── Login credentials (password: pass123) ──────
-
-  🟢 HEALTHY  → ananya@gmail.com   (Govt, Class 9)
-  🟢 HEALTHY  → arjun@gmail.com    (Private, Class 10)
-  🟡 AVERAGE  → rohan@gmail.com    (Govt, Class 10)
-  🔴 ATTENTION→ priya@gmail.com    (Govt, Class 8)
-  🔴 ATTENTION→ nisha@gmail.com    (Private, Class 8)
-  🔵 IRREGULAR→ sakshi@gmail.com   (Govt, Class 7)
-
-  ── Run ────────────────────────────────────────
-  python app.py  →  http://127.0.0.1:5000
-══════════════════════════════════════════════════
-""")
+        print(f"Seeded {Student.query.count()} students, {HealthLog.query.count()} logs")
 
 
 if __name__ == "__main__":
